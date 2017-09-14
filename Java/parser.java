@@ -4,7 +4,14 @@ import java.io.*;
 
 class parser{
 
-	public static boolean isNum(String nextStr){
+public static int periods = 0;
+public static int colons = 0;
+public static int semicolons = 0;
+public static int questions = 0;
+public static int exclamations = 0;
+
+
+	/*public static boolean isNum(String nextStr){
 		try{
 			double d = Double.parseDouble(nextStr);
 		}
@@ -13,6 +20,14 @@ class parser{
 		}
 	
 		return true;
+	}*/
+
+	public static boolean isNum(String s){
+        for(int i = 0; i < s.length(); i++){
+                if(!Character.isDigit(s.charAt(i)))
+                        return false;
+        }
+        return true;
 	}
 
 	public static boolean isVowel(char c){
@@ -54,25 +69,47 @@ class parser{
 		int sentenceMarkCount = 0;
 		for(int i = 0; i < nextStr.length(); i++){
 			char c = nextStr.charAt(i);
-			if(c == '.' || c == ':' || c == ';' || c == '?' || c == '!')
-				sentenceMarkCount++;
+			if(c == '.' || c == ':' || c == ';' || c == '?' || c == '!'){
+                                if(c == '.')
+                                        periods++;
+                                if(c == ':')
+                                        colons++;
+                                if(c == ';')
+                                        semicolons++;
+                                if(c == '?')
+                                        questions++;
+                                if(c == '!')
+                                        exclamations++;
+
+                               sentenceMarkCount++;
+                        }
 		}
 		return sentenceMarkCount;
         }
 
 	public static double getFleschIndex(int wordCount, int syllableCount, int sentenceCount){
+		System.out.println(wordCount);
+                        System.out.println(syllableCount);
+                        System.out.println(sentenceCount);
+
 		double alpha = (double)(syllableCount)/(double)(wordCount);
 		double beta = (double)wordCount / (double)(sentenceCount);
 		double index = 206.835 - alpha*84.6 - beta*1.015;
-		
+		System.out.println(alpha);
+		System.out.println(beta);
 		return index;
 	}
 
 	public static double getFleschKincaidIndex(int wordCount, int syllableCount, int sentenceCount){
+		System.out.println(wordCount);
+                        System.out.println(syllableCount);
+                        System.out.println(sentenceCount);
+
                 double alpha = (double)(syllableCount)/(double)(wordCount);
                 double beta = (double)wordCount / (double)(sentenceCount);
 		double index = alpha*11.8 + beta*0.39 - 15.59;
-		
+		System.out.println(alpha);
+		System.out.println(beta);
 		return index;
         }
 
@@ -85,9 +122,9 @@ class parser{
 			//if(translation.isFile()){
 				//System.out.println(translation.getName());
 				Scanner lineScanner = null;
-				System.out.println(args[0]);
+				//System.out.println(args[0]);
 				try {
-					System.out.println(args[0]);
+					//System.out.println(args[0]);
         				lineScanner = new Scanner(new File(args[0]));
     				} catch (FileNotFoundException e) {
         				e.printStackTrace();  
@@ -101,14 +138,17 @@ class parser{
     				while (lineScanner.hasNextLine()) {
             				//Scanner wordScanner = new Scanner(lineScanner.nextLine());
         				String line = lineScanner.nextLine();
-					String[] splitLine = line.split("\\s+");
+					String[] splitLine = line.split("\\s+");//line.split("\\s+");
 					for(String item: splitLine){
-						item = item.toLowerCase();
+						//item = item.toLowerCase();
 						if(!isNum(item) && !(item).equals("")){
-							System.out.println(item);
+							//item = item.toLowerCase();
+							System.out.println(item);//.replaceAll("[^a-zA-Z ]", ""));
+							item = item.toLowerCase();
 							wordCount++;		
-							syllableCount += countSyllables(item);
-							System.out.println(countSyllables(item));
+							System.out.println(wordCount);
+							syllableCount += countSyllables(item.replaceAll("[^a-zA-Z ]", ""));
+							//System.out.println(countSyllables(item));
 							sentenceCount += countSentenceMarkers(item);
 						}
 							//System.out.println(item);
@@ -119,6 +159,14 @@ class parser{
 			System.out.println(wordCount);
 			System.out.println(syllableCount);
 			System.out.println(sentenceCount);
+			System.out.println(periods);
+                	System.out.println(colons);
+                	System.out.println(semicolons);
+                	System.out.println(questions);
+                	System.out.println(exclamations);
+			sentenceCount = periods + colons + semicolons + questions + exclamations;
+			System.out.println(sentenceCount);
+
 			System.out.println("Flesch Readability Index: " + getFleschIndex(wordCount, syllableCount, sentenceCount));
 			System.out.println("Flesch-Kincaid Grade Level Index: " + getFleschKincaidIndex(wordCount, syllableCount, sentenceCount));
 		
