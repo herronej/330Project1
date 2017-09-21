@@ -10,6 +10,9 @@ with Ada.IO_Exceptions;
 use Ada.IO_Exceptions;
 with Ada.Characters.Handling;
 use Ada.Characters.Handling;
+with Ada.Command_Line;
+use Ada.Command_Line;
+
 
 procedure parser is
 
@@ -36,7 +39,7 @@ syllableCount := 0;
 prevChar := ' ';
 vowelPrev := False;
 
-Ada.Text_IO.Open(File=>In_File,Mode=>Ada.Text_IO.In_File, Name=>"../translations/KJV.txt");
+Ada.Text_IO.Open(File=>In_File,Mode=>Ada.Text_IO.In_File, Name=>Argument(1));--"../translations/KJV.txt");
 
 --pos:=0;
 wordSyllables := 0;
@@ -76,9 +79,9 @@ while not End_Of_File(In_File)loop
                 wordSyllables := wordSyllables - 1;
             end if;
         end if;
-        New_Line(1);
-        Put(wordSyllables);
-        New_Line(1);
+        --New_Line(1);
+        --Put(wordSyllables);
+        --New_Line(1);
         syllableCount := wordSyllables + syllableCount;
         Put(syllableCount);
         wordSyllables := 0;
@@ -92,13 +95,22 @@ while not End_Of_File(In_File)loop
     prevChar := currChar;
 
 
-    Ada.Text_IO.Put(Item=>currChar);    
-    New_Line(1);
+    --Ada.Text_IO.Put(Item=>currChar);    
+    --New_Line(1);
     --prevChar := currChar;
 end loop;
 
 exception 
     when Ada.IO_Exceptions.END_ERROR => Ada.Text_IO.Close(File=>In_File);
+
+Put(prevChar);
+
+if(Is_Letter(prevChar)) then 
+    wordCount := 1 + wordCount;
+    Put_Line("Incremented word count");
+end if;
+
+wordCount := wordCount + 1;
 
 Ada.Text_IO.New_Line;
 Put(sentenceCount);

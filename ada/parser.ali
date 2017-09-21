@@ -1,6 +1,6 @@
 V "GNAT Lib v6"
 M P W=b
-P ZX
+P SS ZX
 
 RN
 RV NO_DIRECT_BOOLEAN_OPERATORS
@@ -8,21 +8,25 @@ RV NO_EXCEPTION_HANDLERS
 RV NO_EXCEPTIONS
 RV NO_FLOATING_POINT
 RV NO_IO
+RV NO_SECONDARY_STACK
 RV NO_DEFAULT_INITIALIZATION
 RV SPARK_05
 
-U parser%b		parser.adb		8fb6708c NE OO SU IL
+U parser%b		parser.adb		0b68a2f5 NE OO SU IL
 W ada%s			ada.ads			ada.ali
 W ada.characters%s	a-charac.ads		a-charac.ali
 W ada.characters.handling%s  a-chahan.adb	a-chahan.ali
+W ada.command_line%s	a-comlin.adb		a-comlin.ali
 W ada.float_text_io%s	a-flteio.ads		a-flteio.ali
 W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
 W ada.io_exceptions%s	a-ioexce.ads		a-ioexce.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
+W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
 
 D ada.ads		20070406091342 3ffc8e18 ada%s
 D a-charac.ads		20070912115821 2d3ec45b ada.characters%s
 D a-chahan.ads		20140611123156 1601a50f ada.characters.handling%s
+D a-comlin.ads		20140225151544 ea62afbc ada.command_line%s
 D a-except.ads		20151016123252 291912d5 ada.exceptions%s
 D a-flteio.ads		20070406091342 e18a47a0 ada.float_text_io%s
 D a-inteio.ads		20070406091342 f64b89a4 ada.integer_text_io%s
@@ -35,12 +39,13 @@ D a-tiinio.ads		20140717063513 aa04e5d6 ada.text_io.integer_io%s
 D a-unccon.ads		20070406091342 f9eb8f06 ada.unchecked_conversion%s
 D interfac.ads		20151118101227 4be8ce1b interfaces%s
 D i-cstrea.ads		20140801100435 e53d8b8e interfaces.c_streams%s
-D parser.adb		20170921105716 52bbf137 parser%b
+D parser.adb		20170921112449 3c078cf2 parser%b
 D system.ads		20151123113124 6326c08a system%s
 D s-crtl.ads		20141120112812 0ebbdb71 system.crtl%s
 D s-exctab.ads		20140225151139 54135002 system.exception_table%s
 D s-ficobl.ads		20140718105747 078245e4 system.file_control_block%s
 D s-parame.ads		20140801093848 7e2a0d7f system.parameters%s
+D s-secsta.ads		20140225151139 86a2856d system.secondary_stack%s
 D s-soflin.ads		20151020124036 14e1eb6c system.soft_links%s
 D s-stache.ads		20140225151139 a37c21ec system.stack_checking%s
 D s-stalib.ads		20151112104907 09bd3940 system.standard_library%s
@@ -49,59 +54,63 @@ D s-traent.ads		20140730135025 005bf670 system.traceback_entries%s
 D s-unstyp.ads		20140731130224 9d58a4c0 system.unsigned_types%s
 D s-wchcon.ads		20140718092328 1b7d22d2 system.wch_con%s
 X 1 ada.ads
-16K9*Ada 19e8 16|1r6 2r5 3r6 4r5 5r6 6r5 9r6 10r5 11r6 12r5 39r1 39r38 44r5
-. 95r5 101r10 101r41 103r1
+16K9*Ada 19e8 17|1r6 2r5 3r6 4r5 5r6 6r5 9r6 10r5 11r6 12r5 13r6 14r5 42r1
+. 42r38 47r5 104r10 104r41 115r1
 X 2 a-charac.ads
-16K13*Characters 18e19 16|11r10 12r9
+16K13*Characters 18e19 17|11r10 12r9
 X 3 a-chahan.ads
-36K24*Handling 159e28 16|11w21 12r20
-46V13*Is_Letter{boolean} 16|51s13
-66V13*To_Lower{character} 16|55s17
-X 5 a-flteio.ads
-20K13*Float_Text_IO[11|46] 16|3w10 4r9
-X 6 a-inteio.ads
-18K13*Integer_Text_IO[12|46] 16|5w10 6r9
-X 7 a-ioexce.ads
-18K13*IO_Exceptions 30e22 16|9w10 10r9 101r14
-26X4*End_Error 16|101r28
-X 10 a-textio.ads
-49K13*Text_IO 471e16 16|1w10 2r9 39r5 39r42 44r9 95r9 101r45 103r5
-52P9*File_Type 16|16r15
-53n23*In_File{53E9} 16|39r50
-92U14*Open 16|39s13
-93p7 File{52P9} 16|39r18
-94e7 Mode{53E9} 16|39r32
-95a7 Name{string} 16|39r59
-98U14*Close 16|101s53
-98p22 File{52P9} 16|101r59
-166U14*New_Line 16|79s9 81s9 96s5 103s13 114s1 119s1
-183V13*End_Of_File{boolean} 16|43s11
-205U14*Get 16|44s17
-205p19 File{52P9} 16|44r21
-205e37 Item{character} 16|44r36
-208U14*Put 16|95s17
-208e19 Item{character} 16|95r21
-242U14*Put 16|112s1 117s1
-X 11 a-tiflio.ads
-68U14*Put 16|113s1[5|20] 118s1[5|20]
-X 12 a-tiinio.ads
-66U14*Put 16|80s9[6|18] 83s9[6|18] 104s1[6|18] 105s1[6|18] 106s1[6|18]
-X 16 parser.adb
-14U11*parser 14b11 121l5 121t11
-16p1 In_File{10|52P9} 39m24 39r24 43r23 44r27 101m65 101r65
-17e1 currChar{character} 44m42 48r8 48r26 48r44 48r62 48r80 51r23 52m9 55m5
-. 55r26 57r8 61r8 61r26 61r44 61r62 61r80 61r98 71r8 92r17 95r27
-17e11 prevChar{character} 36m1 57r29 72r12 92m5
-18i1 wordCount{integer} 33m1 58m9 58r22 105r5 108r37 109r15
-18i12 sentenceCount{integer} 34m1 49m9 49r26 104r5 109r32
-18i27 syllableCount{integer} 35m1 82m9 82r42 83r13 106r5 108r16
-18i42 wordSyllables{integer} 42m1 73r16 74m17 75r19 76m17 76r34 80r13 82r26
-. 84m9 87m13 87r30
-19b1 sentenceMarker{boolean}
-19b17 vowelCurr{boolean} 62m9 64m9 86r11 90r18
-19b28 vowelPrev{boolean} 37m1 86r29 90m5
-20f1 alpha{float} 108m1 111r22 116r14
-20f8 beta{float} 109m1 111r35 116r27
-20f14 fRIndex{float} 111m1 113r5
-20f23 fKGLIndex{float} 116m1 118r5
+36K24*Handling 159e28 17|11w21 12r20
+46V13*Is_Letter{boolean} 17|54s13 108s4
+66V13*To_Lower{character} 17|58s17
+X 4 a-comlin.ads
+38K13*Command_Line 139e21 17|13w10 14r9
+48V13*Argument{string} 17|42s65
+X 6 a-flteio.ads
+20K13*Float_Text_IO[12|46] 17|3w10 4r9
+X 7 a-inteio.ads
+18K13*Integer_Text_IO[13|46] 17|5w10 6r9
+X 8 a-ioexce.ads
+18K13*IO_Exceptions 30e22 17|9w10 10r9 104r14
+26X4*End_Error 17|104r28
+X 11 a-textio.ads
+49K13*Text_IO 471e16 17|1w10 2r9 42r5 42r42 47r9 104r45 115r5
+52P9*File_Type 17|19r15
+53n23*In_File{53E9} 17|42r50
+92U14*Open 17|42s13
+93p7 File{52P9} 17|42r18
+94e7 Mode{53E9} 17|42r32
+95a7 Name{string} 17|42r59
+98U14*Close 17|104s53
+98p22 File{52P9} 17|104r59
+166U14*New_Line 17|115s13 126s1 131s1
+183V13*End_Of_File{boolean} 17|46s11
+205U14*Get 17|47s17
+205p19 File{52P9} 17|47r21
+205e37 Item{character} 17|47r36
+208U14*Put 17|106s1
+242U14*Put 17|124s1 129s1
+263U14*Put_Line 17|110s5
+X 12 a-tiflio.ads
+68U14*Put 17|125s1[6|20] 130s1[6|20]
+X 13 a-tiinio.ads
+66U14*Put 17|86s9[7|18] 116s1[7|18] 117s1[7|18] 118s1[7|18]
+X 17 parser.adb
+17U11*parser 17b11 133l5 133t11
+19p1 In_File{11|52P9} 42m24 42r24 46r23 47r27 104m65 104r65
+20e1 currChar{character} 47m42 51r8 51r26 51r44 51r62 51r80 54r23 55m9 58m5
+. 58r26 60r8 64r8 64r26 64r44 64r62 64r80 64r98 74r8 95r17
+20e11 prevChar{character} 39m1 60r29 75r12 95m5 106r5 108r14
+21i1 wordCount{integer} 36m1 61m9 61r22 109m5 109r22 113m1 113r14 117r5 120r37
+. 121r15
+21i12 sentenceCount{integer} 37m1 52m9 52r26 116r5 121r32
+21i27 syllableCount{integer} 38m1 85m9 85r42 86r13 118r5 120r16
+21i42 wordSyllables{integer} 45m1 76r16 77m17 78r19 79m17 79r34 85r26 87m9
+. 90m13 90r30
+22b1 sentenceMarker{boolean}
+22b17 vowelCurr{boolean} 65m9 67m9 89r11 93r18
+22b28 vowelPrev{boolean} 40m1 89r29 93m5
+23f1 alpha{float} 120m1 123r22 128r14
+23f8 beta{float} 121m1 123r35 128r27
+23f14 fRIndex{float} 123m1 125r5
+23f23 fKGLIndex{float} 128m1 130r5
 
