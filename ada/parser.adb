@@ -4,8 +4,6 @@ with Ada.Float_Text_IO;
 use Ada.Float_Text_IO;
 with Ada.Integer_Text_IO;
 use Ada.Integer_Text_IO;
---with Ada.Boolean_Text_IO;
---use Ada.Boolean_Text_IO;
 with Ada.IO_Exceptions;
 use Ada.IO_Exceptions;
 with Ada.Characters.Handling;
@@ -22,16 +20,6 @@ wordCount, sentenceCount, syllableCount, wordSyllables : Integer;
 sentenceMarker, vowelCurr, vowelPrev : Boolean;
 alpha, beta, fRIndex, fKGLIndex : Float;
 
---function isSentenceMarker (c : Character) return Boolean is
---begin
---if '.' = '.' then--or c is ";" or c is ":" or c is "!" or c is "?" then 
---    return True;
---else
---return False;
---end if;
-
---end isSentenceMarker; 
-
 begin
 wordCount := 0;
 sentenceCount := 0;
@@ -39,39 +27,41 @@ syllableCount := 0;
 prevChar := ' ';
 vowelPrev := False;
 
-Ada.Text_IO.Open(File=>In_File,Mode=>Ada.Text_IO.In_File, Name=>Argument(1));--"../translations/KJV.txt");
+-- open translation file
+Ada.Text_IO.Open(File=>In_File,Mode=>Ada.Text_IO.In_File, Name=>Argument(1));
 
---pos:=0;
 wordSyllables := 0;
 while not End_Of_File(In_File)loop
+    -- read file char by char
     Ada.Text_IO.Get(File=>In_File, Item=>currChar);
-    --wordSyllables := 0;
-    --Ada.Text_IO.Put(Item=>currChar);
-    --Put(sentenceCount);
+
+    -- increment sentence marker count
     if(currChar = '.' or currChar = ';' or currChar = ':' or currChar = '!' or currChar = '?') then
         sentenceCount := sentenceCount + 1;
     end if;
+
+    -- remove non-chars
     if( not Is_Letter(currChar)) then
         currChar := ' ';
     end if;
     
     currChar := To_Lower(currChar);
 
+    --  increment word count based on chars and spaces
     if(currChar /= ' ' and  prevChar = ' ') then
         wordCount := wordCount + 1;
     end if;
 
+    -- check if currChar is vowel
     if(currChar = 'a' or currChar = 'e' or currChar = 'i' or currChar = 'o' or currChar = 'u' or currChar = 'y') then
         vowelCurr := True;
     else
         vowelCurr := False;
     end if;
     
-    --Put("Vowel Curr: ");
-    --Put(Boolean'image(vowelCurr));
-    --New_Line(1);
-
+    -- count syllables
     if(currChar = ' ') then
+        -- silent e
         if(prevChar = 'e') then
             if(wordSyllables = 0)then
                 wordSyllables := 1;
@@ -79,44 +69,33 @@ while not End_Of_File(In_File)loop
                 wordSyllables := wordSyllables - 1;
             end if;
         end if;
-        --New_Line(1);
-        --Put(wordSyllables);
-        --New_Line(1);
+        
+        -- base case
         syllableCount := wordSyllables + syllableCount;
-        Put(syllableCount);
+
         wordSyllables := 0;
-        --print*, input, " ", syllablesCount
+        
     elsif(vowelCurr and not vowelPrev) then
             wordSyllables := wordSyllables + 1;
     end if;
 
     vowelPrev := vowelCurr;
-    --!pprev = prev
+    
     prevChar := currChar;
 
-
-    --Ada.Text_IO.Put(Item=>currChar);    
-    --New_Line(1);
-    --prevChar := currChar;
 end loop;
 
 exception 
     when Ada.IO_Exceptions.END_ERROR => Ada.Text_IO.Close(File=>In_File);
 
-Put(prevChar);
+--Put(prevChar);
 
 if(Is_Letter(prevChar)) then 
     wordCount := 1 + wordCount;
-    Put_Line("Incremented word count");
 end if;
 
-wordCount := wordCount + 1;
 
-Ada.Text_IO.New_Line;
-Put(sentenceCount);
-Put(wordCount);
-Put(syllableCount);
-
+-- calculate and print Flesch Indeces
 alpha := float(syllableCount)/float(wordCount);
 beta := float(wordCount)/float(sentenceCount);
 

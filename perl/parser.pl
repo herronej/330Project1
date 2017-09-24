@@ -1,16 +1,8 @@
 #!/usr/bin/perl
 
-foreach my $arg (@ARGV) {
-    print $arg, "\n";
-}
-
-print $ARGV[0];
-
-#my $translation = read_file( ARGV[1] );
 my $filename = $ARGV[0];
 
-print $filename
-
+# read translation text file
 my $file = $filename; #"../translations/NIV.txt"; #"$ARGV[1];
 my $document = do {
     local $/ = undef;
@@ -19,99 +11,76 @@ my $document = do {
     <$fh>;
 };
 
-
-#print $document;
 $numSentences = 0;
 $numWords = 0;
 $numSyllables = 0;
 
+# count occurances of each sentence end punctuation
 my $periods = () = ($document =~ /\./g);
-print "periods: $periods\n";
-
 my $colons = () = ($document =~ /:/g);
-print "colons: $colons\n";
-
 my $semicolons = () = ($document =~ /;/g);
-print "semicolons: $semicolons\n";
-
 my $questions = () = ($document =~ /\?/g);
-print "questions: $questions\n";
-
 my $exclamations = () = ($document =~ /!/g);
-print "exclamations: $exclamations\n";
 
 $numSentences = $periods + $colons + $semicolons + $questions + $exclamations;
 
-print "$numSentences\n";
 
-$document =~ s/\d//g;
-
-#print $document;
-
+# split string with entire translation into individual word array
 my @wordArray = split ' ', $document;
-
-#print $wordArray;
 
 $prevVowel = 0;
 
 foreach my $n (@wordArray){
-    $n =~ s/[[:punct:]]//g;
-    $n = lc $n;
-    #print "$n\n";
-    my @chars = split("", $n);
-    $wordSyllables = 0;
-    $prevVowel = 0;
-    foreach my $c (@chars){
-        #print "$c\n";
-        #print "prevVowel: $prevVowel\n";
-        if($c eq 'a' || $c eq 'e' || $c eq 'i' || $c eq 'o' || $c eq 'u' || $c eq 'y'){
-            #print "$c is vowel\n";
-            if($prevVowel == 0){
-                $wordSyllables = $wordSyllables + 1;
-                #print "Incremented Syllables to $wordSyllables\n";              
-            }
-            else{
-                #print "not preceeded by vowel\n";
-            }  
-            $prevVowel = 1;
-            #print "set prev value to 1 \n";
-        } 
-        else{
-            #print "non vowel\n";
-            $prevVowel = 0;
-            #print "set prev value to 0\n";
-        }
-        #print "$prevVowel\n";
-    }
-    #print "$chars[@chars-1]\n";
-    if($chars[@chars-1] eq 'e'){
-        #print "silent e\n";
-        #print "$wordSyllables\n";
-        if($wordSyllables > 1){
-            #print "subtracting for silent e\n";
-            $wordSyllables = $wordSyllables - 1;
-        }
-    }
 
-    $numSyllables = $numSyllables + $wordSyllables;
-    #print "word syllables: $wordSyllables\n"
-    #print "$chars[0]\n";
-    #print "$n\n";
+    if(! ($n =~ /^\d+?$/)){
+
+        # increment word count
+        $numWords = 1 + $numWords;
+
+        # remove punctuation from word
+        $n =~ s/[[:punct:]]//g;
+
+        # set word to lower case
+        $n = lc $n;
+
+        print "$n\n";
+
+        my @chars = split("", $n);
+        $wordSyllables = 0;
+        $prevVowel = 0;
+
+        #count syllables in each word
+        foreach my $c (@chars){
+            if($c eq 'a' || $c eq 'e' || $c eq 'i' || $c eq 'o' || $c eq 'u' || $c eq 'y'){
+                if($prevVowel == 0){
+                    $wordSyllables = $wordSyllables + 1;              
+                }  
+                $prevVowel = 1;
+            } 
+            else{
+                $prevVowel = 0;
+            }
+        }
+
+        #handle silent e
+        if($chars[@chars-1] eq 'e'){
+            if($wordSyllables > 1){
+                $wordSyllables = $wordSyllables - 1;
+            }
+        }
+
+        $numSyllables = $numSyllables + $wordSyllables;
+    }
 }
 
-$numWords = @wordArray;
+print "$numWords\n";
+print "$numSyllables\n";
+print "$numSentences\n";
 
-print "Word count: $numWords\n";
-print "sentence count: $numSentences\n";
-print "syllable count: $numSyllables\n";
+# calculate and output Flesch Indeces
 
-
-my $alpha = $numSyllables / $numWords;
-
-my $beta = $numWords / $numSentences;
-
-print "alpha $alpha\n";
-print "beta $beta\n";
+$alpha = $numSyllables/$numWords;
+$beta = $numWords/$numSentences; 
 
 my $fleschIndex = 206.835 - $alpha*84.6 - $beta*1.015;
 my $fleschKincaidIndex = $alpha*11.8 + $beta*0.39 - 15.59;

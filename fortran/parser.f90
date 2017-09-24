@@ -3,6 +3,7 @@ program reader2
 character(LEN=5000000)::long_string
 integer::filesize
 
+! read file into one long_string
 call read_file(long_string, filesize)
 
 end program reader2
@@ -32,16 +33,22 @@ wordSyllables = 0.0
     counter=counter+1
     call isSentenceMarker(input, sentenceMarker)
     call clean_char(input)
+    
+    !increment sentence count
     if(sentenceMarker) then
         sentenceCount = sentenceCount + 1
     end if
+
+    !increment word count based on spaces following chars 
     if(input /= " " .and. prev == " ") then
         wordCount = wordCount + 1.0
     end if
 
     call isVowel(input, vowelIn)
 
+    ! count syllables
     if(input == " ") then
+        ! handle silent e
         if(prev == "E") then 
             if(wordSyllables == 0.0)then
                 wordSyllables = 1.0;
@@ -49,11 +56,10 @@ wordSyllables = 0.0
                 wordSyllables = wordSyllables - 1.0;
             end if
         end if
-        
         syllablesCount = wordSyllables + syllablesCount
         wordSyllables = 0
-        
     else
+        ! base case 
         if(vowelIn .and. .not. vowelPrev) then
             wordSyllables = wordSyllables + 1
         end if
@@ -67,10 +73,8 @@ wordSyllables = 0.0
 counter=counter-1
 
 close(5)
-print*,"Word Count: ", wordCount," words."
-print*,"Sentence Count: ",sentenceCount," sentences."
-print*,"Num Syllables: ", syllablesCount," syllables."
 
+! calculate and print Flesch Indeces
 call getFleschIndex(wordCount, sentenceCount, syllablesCount)
 call getFleschKincaidIndex(wordCount, sentenceCount, syllablesCount)
 
@@ -78,41 +82,42 @@ end subroutine read_file
 
 
 subroutine getFleschIndex(wordCount, sentenceCount, syllablesCount)
+! calculates and prints Flesch Index
 real::wordCount, sentenceCount, syllablesCount, alpha, beta, fIndex
 alpha = syllablesCount/wordCount
 beta = wordCount/sentenceCount    
-
-
 fIndex = 206.835 - alpha*84.6 - beta*1.015
 print*, "Flesch Readability Index: ", fIndex
+
 end subroutine getFleschIndex
 
 
 subroutine getFleschKincaidIndex(wordCount, sentenceCount, syllablesCount)
+! calculates and prints Flesch Kincaid Index
 real::wordCount, sentenceCount, syllablesCount, alpha, beta, fIndex
 alpha = syllablesCount/wordCount
 beta = wordCount/sentenceCount
-
 fIndex = alpha*11.8 + beta*0.39 - 15.59
 print*, "Flesch-Kincaid Grade Level Index: ", fIndex
 end subroutine getFleschKincaidIndex
 
 
 subroutine isVowel(charNext, vowel)
+! checks if word is vowel
 character(len=1) :: charNext
 logical :: vowel 
 vowel = (charNext == "A" .or. charNext == "E" .or. charNext == "I" .or. charNext == "O" .or. charNext == "U" .or. charNext == "Y")
 end subroutine isVowel
 
 subroutine isSentenceMarker(charNext, sentenceMarker)
+! check for presence of sentence markers
 character(len=1) :: charNext
 logical :: sentenceMarker
-
 sentenceMarker = (charNext == "." .or. charNext == ":" .or. charNext == ";" .or. charNext == "!" .or. charNext == "?")
-
 end subroutine isSentenceMarker
 
 subroutine clean_char(charNext)
+! removes all non-characters and sets to uppercase
 character(len=1) :: charNext
 integer :: j, e
 logical :: is_numeric
