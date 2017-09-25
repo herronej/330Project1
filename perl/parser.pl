@@ -43,7 +43,7 @@ foreach my $n (@wordArray){
         # set word to lower case
         $n = lc $n;
 
-        print "$n\n";
+        #print "$n\n";
 
         my @chars = split("", $n);
         $wordSyllables = 0;
@@ -73,9 +73,9 @@ foreach my $n (@wordArray){
     }
 }
 
-print "$numWords\n";
-print "$numSyllables\n";
-print "$numSentences\n";
+#print "$numWords\n";
+#print "$numSyllables\n";
+#print "$numSentences\n";
 
 # calculate and output Flesch Indeces
 
