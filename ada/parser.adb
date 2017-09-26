@@ -17,7 +17,7 @@ procedure parser is
 In_File     : File_Type;
 currChar, prevChar       : Character;
 wordCount, sentenceCount, syllableCount, wordSyllables : Integer;
-sentenceMarker, vowelCurr, vowelPrev : Boolean;
+sentenceMarker, vowelCurr, vowelPrev, printed : Boolean;
 alpha, beta, fRIndex, fKGLIndex : Float;
 
 begin
@@ -34,7 +34,7 @@ wordSyllables := 0;
 while not End_Of_File(In_File)loop
     -- read file char by char
     Ada.Text_IO.Get(File=>In_File, Item=>currChar);
-
+    --Put(currChar);
     -- increment sentence marker count
     if(currChar = '.' or currChar = ';' or currChar = ':' or currChar = '!' or currChar = '?') then
         sentenceCount := sentenceCount + 1;
@@ -79,23 +79,15 @@ while not End_Of_File(In_File)loop
             wordSyllables := wordSyllables + 1;
     end if;
 
+    --Put(currChar);
+
     vowelPrev := vowelCurr;
     
     prevChar := currChar;
 
 end loop;
 
-exception 
-    when Ada.IO_Exceptions.END_ERROR => Ada.Text_IO.Close(File=>In_File);
-
---Put(prevChar);
-
-if(Is_Letter(prevChar)) then 
-    wordCount := 1 + wordCount;
-end if;
-
-
--- calculate and print Flesch Indeces
+--Put("EOF");
 alpha := float(syllableCount)/float(wordCount);
 beta := float(wordCount)/float(sentenceCount);
 
@@ -108,5 +100,26 @@ fKGLIndex := alpha*11.8 + beta*0.39 - 15.59;
 Put( "Flesch-Kincaid Grade Level Index: ");
 Put(fKGLIndex);
 New_Line(1);
+printed := True;
+
+exception 
+    when Ada.IO_Exceptions.END_ERROR => Ada.Text_IO.Close(File=>In_File);
+
+
+if ( printed /= True ) then
+    --calculate and print Flesch Indeces
+    alpha := float(syllableCount)/float(wordCount);
+    beta := float(wordCount)/float(sentenceCount);
+
+    fRIndex := 206.835 - alpha*84.6 - beta*1.015;
+    Put( "Flesch Readability Index: ");
+    Put(fRIndex);
+    New_Line(1);
+
+    fKGLIndex := alpha*11.8 + beta*0.39 - 15.59;
+    Put( "Flesch-Kincaid Grade Level Index: ");
+    Put(fKGLIndex);
+    New_Line(1);
+end if;
 
 end parser;

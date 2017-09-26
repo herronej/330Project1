@@ -12,7 +12,7 @@ RV NO_SECONDARY_STACK
 RV NO_DEFAULT_INITIALIZATION
 RV SPARK_05
 
-U parser%b		parser.adb		3673c2a7 NE OO SU IL
+U parser%b		parser.adb		645aa6d8 NE OO SU IL
 W ada%s			ada.ads			ada.ali
 W ada.characters%s	a-charac.ads		a-charac.ali
 W ada.characters.handling%s  a-chahan.adb	a-chahan.ali
@@ -39,7 +39,7 @@ D a-tiinio.ads		20140717063513 aa04e5d6 ada.text_io.integer_io%s
 D a-unccon.ads		20070406091342 f9eb8f06 ada.unchecked_conversion%s
 D interfac.ads		20151118101227 4be8ce1b interfaces%s
 D i-cstrea.ads		20140801100435 e53d8b8e interfaces.c_streams%s
-D parser.adb		20170924173437 011ceca0 parser%b
+D parser.adb		20170926024833 533588df parser%b
 D system.ads		20151123113124 6326c08a system%s
 D s-crtl.ads		20141120112812 0ebbdb71 system.crtl%s
 D s-exctab.ads		20140225151139 54135002 system.exception_table%s
@@ -55,12 +55,12 @@ D s-unstyp.ads		20140731130224 9d58a4c0 system.unsigned_types%s
 D s-wchcon.ads		20140718092328 1b7d22d2 system.wch_con%s
 X 1 ada.ads
 16K9*Ada 19e8 17|1r6 2r5 3r6 4r5 5r6 6r5 7r6 8r5 9r6 10r5 11r6 12r5 31r1
-. 31r38 36r5 89r10 89r41
+. 31r38 36r5 106r10 106r41
 X 2 a-charac.ads
 16K13*Characters 18e19 17|9r10 10r9
 X 3 a-chahan.ads
 36K24*Handling 159e28 17|9w21 10r20
-46V13*Is_Letter{boolean} 17|44s13 93s4
+46V13*Is_Letter{boolean} 17|44s13
 66V13*To_Lower{character} 17|48s17
 X 4 a-comlin.ads
 38K13*Command_Line 139e21 17|11w10 12r9
@@ -70,42 +70,43 @@ X 6 a-flteio.ads
 X 7 a-inteio.ads
 18K13*Integer_Text_IO[13|46] 17|5w10 6r9
 X 8 a-ioexce.ads
-18K13*IO_Exceptions 30e22 17|7w10 8r9 89r14
-26X4*End_Error 17|89r28
+18K13*IO_Exceptions 30e22 17|7w10 8r9 106r14
+26X4*End_Error 17|106r28
 X 11 a-textio.ads
-49K13*Text_IO 471e16 17|1w10 2r9 31r5 31r42 36r9 89r45
+49K13*Text_IO 471e16 17|1w10 2r9 31r5 31r42 36r9 106r45
 52P9*File_Type 17|17r15
 53n23*In_File{53E9} 17|31r50
 92U14*Open 17|31s13
 93p7 File{52P9} 17|31r18
 94e7 Mode{53E9} 17|31r32
 95a7 Name{string} 17|31r59
-98U14*Close 17|89s53
-98p22 File{52P9} 17|89r59
-166U14*New_Line 17|105s1 110s1
+98U14*Close 17|106s53
+98p22 File{52P9} 17|106r59
+166U14*New_Line 17|97s1 102s1 117s5 122s5
 183V13*End_Of_File{boolean} 17|34s11
 205U14*Get 17|36s17
 205p19 File{52P9} 17|36r21
 205e37 Item{character} 17|36r36
-242U14*Put 17|103s1 108s1
+242U14*Put 17|95s1 100s1 115s5 120s5
 X 12 a-tiflio.ads
-68U14*Put 17|104s1[6|20] 109s1[6|20]
+68U14*Put 17|96s1[6|20] 101s1[6|20] 116s5[6|20] 121s5[6|20]
 X 17 parser.adb
-15U11*parser 15b11 112l5 112t11
-17p1 In_File{11|52P9} 31m24 31r24 34r23 36r27 89m65 89r65
+15U11*parser 15b11 125l5 125t11
+17p1 In_File{11|52P9} 31m24 31r24 34r23 36r27 106m65 106r65
 18e1 currChar{character} 36m42 39r8 39r26 39r44 39r62 39r80 44r23 45m9 48m5
-. 48r26 51r8 56r8 56r26 56r44 56r62 56r80 56r98 63r8 84r17
-18e11 prevChar{character} 27m1 51r29 65r12 84m5 93r14
-19i1 wordCount{integer} 24m1 52m9 52r22 94m5 94r22 99r37 100r15
-19i12 sentenceCount{integer} 25m1 40m9 40r26 100r32
-19i27 syllableCount{integer} 26m1 74m9 74r42 99r16
+. 48r26 51r8 56r8 56r26 56r44 56r62 56r80 56r98 63r8 86r17
+18e11 prevChar{character} 27m1 51r29 65r12 86m5
+19i1 wordCount{integer} 24m1 52m9 52r22 91r37 92r15 111r41 112r19
+19i12 sentenceCount{integer} 25m1 40m9 40r26 92r32 112r36
+19i27 syllableCount{integer} 26m1 74m9 74r42 91r16 111r20
 19i42 wordSyllables{integer} 33m1 66r16 67m17 68r19 69m17 69r34 74r26 76m9
 . 79m13 79r30
 20b1 sentenceMarker{boolean}
-20b17 vowelCurr{boolean} 57m9 59m9 78r11 82r18
-20b28 vowelPrev{boolean} 28m1 78r29 82m5
-21f1 alpha{float} 99m1 102r22 107r14
-21f8 beta{float} 100m1 102r35 107r27
-21f14 fRIndex{float} 102m1 104r5
-21f23 fKGLIndex{float} 107m1 109r5
+20b17 vowelCurr{boolean} 57m9 59m9 78r11 84r18
+20b28 vowelPrev{boolean} 28m1 78r29 84m5
+20b39 printed{boolean} 103m1 109r6
+21f1 alpha{float} 91m1 94r22 99r14 111m5 114r26 119r18
+21f8 beta{float} 92m1 94r35 99r27 112m5 114r39 119r31
+21f14 fRIndex{float} 94m1 96r5 114m5 116r9
+21f23 fKGLIndex{float} 99m1 101r5 119m5 121r9
 
